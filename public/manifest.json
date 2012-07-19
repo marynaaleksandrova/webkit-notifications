@@ -1,0 +1,8 @@
+{
+  "name": "Webkit-notifacations",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Webkit-notifacations to drink more water through the day",
+  "default_locale": "en",
+  "permissions": ["notifications"],
+}

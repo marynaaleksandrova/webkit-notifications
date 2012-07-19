@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Water!</title>
+    <meta name="description" content="description should be here"/>
+    <meta name="keywords" content="keywords should be here"/>
+    <meta name="author" content="Maryna Aleksandrova">
+    <!-- Styles -->
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <button>Start here!</button>
+    <p>This is test text</p>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js"></script>
+  <script src="underscore.js"></script>
+  <script src="jquery-1.7.2.min.js"></script>
+  <script>
+	$(function(){
+    // window.setInterval(showNotification, 5400000);
+    var startHour = 8;
+    var startMinute = 30;
+
+    var currentHour = 8;
+    var currentMinute = 42;
+
+    var intervalHour = 0;
+    var intervalMinute = 03;
+    var interval = (intervalHour*60 + intervalMinute)*60*1000
+
+    var deltaMinute = 10;
+
+    var differenceHour;
+    var differenceMinute;
+
+    if (startHour > currentHour) {
+        //start notification at startHour satertMinute
+        
+        if (startMinute > currentMinute) {
+          var delay = ((startHour - currentHour)*60 + (startMinute - currentMinute))*60*1000;
+          
+          setTimeout(function() {
+            window.setInterval(showNotification, 5400000)
+          }, delay);
+          
+        } else if (startMinute == currentMinute) {
+          var delay = (startHour - currentHour)*60*60*1000;
+          
+          setTimeout(function() {
+            window.setInterval(showNotification, 5400000)
+          }, delay);
+          
+        } else if (startMinute < currentMinute) {
+          var delay = ((startHour - 1 - currentHour)*60 + (startMinute + 60 - currentMinute))*60*1000;
+          
+          setTimeout(function() {
+            window.setInterval(showNotification, 5400000)
+          }, delay);
+          
+        }        
+    } else if (startHour == currentHour) {
+      if (startMinute > currentMinute) {
+        //start notification at startHour startMinute
+        
+        var delay = (startMinute - currentMinute)*60*1000;
+        
+        setTimeout(function() {
+          window.setInterval(showNotification, 5400000)
+        }, delay);
+        
+      } else if (startMinute == currentMinute) {
+        //start notification right now as it's now startHour startMinute
+        window.setInterval(showNotification, 5400000);
+        
+      } else if (startMinute < currentMinute) {
+        var deltaCurrent = currentMinute - startMinute;
+        if (deltaCurrent <= deltaMinute) {
+          //start notification
+          window.setInterval(showNotification, 5400000);
+          
+        } else if (deltaCurrent > deltaMinute) {
+          //do while loop
+          differenceMinute = currentMinute - startMinute;
+        
+          var i = 0;
+          for (; differenceMinute > 0; i++) {
+            differenceMinute -= intervalMinute;
+          }
+          if (differenceMinute < 0) {
+            differenceMinute += intervalMinute
+          }
+          
+          var pastTime = differenceMinute*60*1000;
+          var delay = interval - pastTime;
+          console.log(differenceMinute, delay);
+          
+          setTimeout(function() {
+            window.setInterval(showNotification, 5400000)
+          }, delay)
+        }
+      }
+    } else if (startHour < currentHour) {
+      differenceHour = currentHour - startHour;
+      differenceMinute = currentMinute - startMinute;
+      if (differenceMinute < 0) {
+        differenceHour -= 1;
+        differenceMinute += 60;
+      }
+
+      while (((differenceHour > intervalHour) || (differenceMinute > intervalMinute)) & (differenceHour > 0)){
+        differenceHour -= intervalHour;
+        differenceMinute -= intervalMinute;
+        if (differenceMinute < 0){
+          differenceHour -= 1;
+          differenceMinute += 60;
+        }
+      }
+      var pastTime = (differenceHour*60 + differenceMinute)*60*1000;
+      var delay = interval - pastTime;
+      console.log(pastTime);
+      
+      setTimeout(function() {
+        window.setInterval(showNotification, 5400000)
+      }, delay)
+
+    }
+
+    
+    console.log(differenceHour, differenceMinute);
+
+    // var time = new Date();
+    // var currentHour = time.getHours();
+    // var currentMinute = time.getMinutes();
+
+    // function showNotification(){
+    //   if (window.webkitNotifications.checkPermission() == 0) {
+    //     var notification = webkitNotifications.createNotification("Don't forget", "to drink 1 glass of water");
+    //     console.log(notification);
+    //     notification.show();
+    //   } else {
+    //     window.webkitNotifications.requestPermission();
+    //   }
+    // };
+	});
+  </script>
+  </body>
+</html>
